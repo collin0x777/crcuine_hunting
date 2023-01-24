@@ -1,1 +1,3 @@
 /rust/target
+/erlang/*.beam
+/erlang/erl_crash.dump
