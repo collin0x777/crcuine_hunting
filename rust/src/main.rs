@@ -1,9 +1,8 @@
 use crc32fast;
 use std::thread;
 use std::process;
-use rand;
 
-const THREAD_COUNT: u32 = 8;
+const THREAD_COUNT: u32 = 12;
 const STRING: &str = "Data's true form sought\nCRC-32 ensures this haiku's heart\n";
 
 fn format_hash(hash: u32) -> String {
@@ -29,6 +28,7 @@ fn check_range(text: &str, start: u32, end: u32) -> u32 {
     return 0;
 }
 
+// get the nth equal subrange of [start, end]. The remainder is added to the last subrange
 fn split_range(start: u32, end: u32, total: u32, index: u32) -> (u32, u32) {
     let range = end - start;
     let split = range / total;
@@ -56,4 +56,6 @@ fn main() {
     for handle in handles {
         handle.join().unwrap();
     }
+    
+    println!("Reached the end, no circular hash found :(")
 }
