@@ -3,15 +3,15 @@ use std::thread;
 use std::process;
 
 const THREAD_COUNT: u32 = 12;
-const STRING: &str = "Data's true form sought\nCRC-32 ensures this haiku's heart\n";
+const STRING: &str = "Data's true form sought\nCRC32 ensures this haiku's heart\n";
 
 fn format_hash(hash: u32) -> String {
-    format!("{:#010x}", hash)
+    format!("{:#010X}", hash)
 }
 
 // checks if the crc32 hash of X + Y is equal to Y
 fn is_crcuine(text: &str, hash: u32) -> bool {
-    let new_text = format!("{}{}", text, format_hash(hash));
+    let new_text = format!("{}{}\n", text, format_hash(hash));
     let hash2 = crc32fast::hash(new_text.as_bytes());
 
     return hash == hash2;
@@ -21,7 +21,7 @@ fn is_crcuine(text: &str, hash: u32) -> bool {
 fn check_range(text: &str, start: u32, end: u32) -> u32 {
     for i in start..=end {
         if is_crcuine(text, i) {
-            println!("Found hash: {:#010x}", i);
+            println!("Found hash: {}", format_hash(i));
             process::exit(0);
         }
     }
